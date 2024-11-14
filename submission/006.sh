@@ -7,5 +7,5 @@ COINBASE_TXID=$(bitcoin-cli getblock $BLOCK_HASH | jq -r '.tx[0]')
 
 BLOCK_HASH=$(bitcoin-cli getblockhash 257343)
 # 0000000000000004f3fb306baa0638ffc181bc6b9752f9325612559c04d57bf9
-bitcoin-cli getblock $BLOCK_HASH 2 | jq -r '.tx[] | select([.vin[].txid == $ENV.COINBASE_TXID] | any) | .txid'
+bitcoin-cli getblock $BLOCK_HASH 2 | COINBASE_TXID=$COINBASE_TXID jq -r '.tx[] | select([.vin[].txid == $ENV.COINBASE_TXID] | any) | .txid'
 # 90d10b04417f2698fa8fed92ca5c951d26613a1737da69a7450f8c7706ba8783
